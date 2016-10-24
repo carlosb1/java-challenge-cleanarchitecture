@@ -1,4 +1,4 @@
-package integration;
+package challenge.integration;
 
 import static org.junit.Assert.assertTrue;
 
