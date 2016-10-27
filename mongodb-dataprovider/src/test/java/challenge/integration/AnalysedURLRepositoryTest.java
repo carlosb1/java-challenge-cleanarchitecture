@@ -1,26 +1,34 @@
 package challenge.integration;
 
+import static org.junit.Assert.assertTrue;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.List;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.data.repository.config.RepositoryConfiguration;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.transaction.annotation.Transactional;
+
+import challenge.AnalysedURLRepository;
+import challenge.MongoConfig;
+import challenge.models.AnalysedURL;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@Transactional
-@ContextConfiguration(classes = RepositoryConfiguration.class)
+@ContextConfiguration(classes = { MongoConfig.class })
+// TODO added mocks for database
 public class AnalysedURLRepositoryTest {
-	// @Autowired
-	// AnalysedURLRepository repository;
 	@Autowired
-	private ApplicationContext applicationContext;
+	AnalysedURLRepository repository;
 
 	@Test
-	public void addOneURLThenIsUploadCorrectly() {
-		System.out.println("Hello world");
-		// assertTrue(repository.count() == 0);
+	public void addOneURLThenIsUploadCorrectly() throws MalformedURLException {
+		repository.deleteAll();
+		AnalysedURL url = new AnalysedURL(new URL("https:://www.google.com"), AnalysedURL.Status.TRUE);
+		repository.save(url);
+		List<AnalysedURL> info = repository.findAll();
+		assertTrue(info.size() == 1);
 	}
 }
