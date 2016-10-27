@@ -8,33 +8,18 @@
     <version>1.0-SNAPSHOT</version>
   </parent>
   <groupId>challenge</groupId>
-  <artifactId>mongodb-dataprovider</artifactId>
+  <artifactId>rest-entrypoint</artifactId>
   <version>1.0-SNAPSHOT</version>
-  <name>mongodb-dataprovider</name>
+  <name>rest-entrypoint</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
-  
   <dependencies>
-    <dependency>
-        <groupId>org.springframework.data</groupId>
-        <artifactId>spring-data-mongodb</artifactId>
-        <version>1.9.4.RELEASE</version>
-    </dependency>
-    
        <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-web</artifactId>
     	<version>1.4.1.RELEASE</version>
         </dependency>
-    
-   	<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<version>4.1.6.RELEASE</version>
-		</dependency>
-</dependencies>
-
-
+  </dependencies>
 </project>

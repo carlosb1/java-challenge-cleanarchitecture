@@ -16,6 +16,7 @@
   <modules>
     <module>crawler</module>
     <module>mongodb-dataprovider</module>
+    <module>rest-entrypoint</module>
   </modules>
   <build>
 	  <plugins>
