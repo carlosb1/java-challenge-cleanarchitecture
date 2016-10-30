@@ -7,10 +7,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
-import challenge.models.AnalysedURL;
+import challenge.entities.AnalysedURL;
+import challenge.usecases.ModifyURL;
 
+//TODO Add find by url
 @Repository
-public interface AnalysedURLRepository extends MongoRepository<AnalysedURL, String> {
+public interface AnalysedURLRepository extends MongoRepository<AnalysedURL, String>, ModifyURL {
 	@SuppressWarnings("unchecked")
 	AnalysedURL save(AnalysedURL url);
 

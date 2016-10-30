@@ -14,11 +14,12 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import challenge.AnalysedURLRepository;
 import challenge.MongoConfig;
-import challenge.models.AnalysedURL;
+import challenge.entities.AnalysedURL;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes = { MongoConfig.class })
 // TODO added mocks for database
+// TODO add tests for save an replace
 public class AnalysedURLRepositoryTest {
 	@Autowired
 	AnalysedURLRepository repository;
