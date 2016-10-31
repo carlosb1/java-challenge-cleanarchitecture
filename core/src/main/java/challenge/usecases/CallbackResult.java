@@ -1,4 +1,4 @@
-package challenge;
+package challenge.usecases;
 
 // TODO move this class to the model interface
 public class CallbackResult {

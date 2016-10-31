@@ -6,8 +6,8 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import challenge.CallbackResult;
 import challenge.WebCrawlerManager;
+import challenge.usecases.CallbackResult;
 
 public class WebCrawlerManagerTest {
 

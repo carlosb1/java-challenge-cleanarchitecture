@@ -9,6 +9,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import challenge.usecases.CallbackResult;
+
 public class WebCrawlerManager {
 	private final static Logger LOGGER = Logger.getLogger(WebCrawlerManager.class.getName());
 
