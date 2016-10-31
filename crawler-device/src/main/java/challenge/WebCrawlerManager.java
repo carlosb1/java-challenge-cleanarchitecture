@@ -9,17 +9,19 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import challenge.usecases.CallbackResult;
+import challenge.entities.AnalysedURL;
+import challenge.usecases.CallbackResultURL;
+import challenge.usecases.CrawlURL;
 
-public class WebCrawlerManager {
+public class WebCrawlerManager implements CrawlURL {
 	private final static Logger LOGGER = Logger.getLogger(WebCrawlerManager.class.getName());
 
 	private static final class InfoWebCrawler {
 
 		private final String url;
-		private final CallbackResult result;
+		private final CallbackResultURL result;
 
-		private InfoWebCrawler(final String url, final CallbackResult result) {
+		private InfoWebCrawler(final String url, final CallbackResultURL result) {
 			this.url = url;
 			this.result = result;
 		}
@@ -39,13 +41,13 @@ public class WebCrawlerManager {
 			try {
 				// TODO move callback to web crawler...
 				boolean result = crawler.execute();
-				this.info.result.setResult((result == true) ? CallbackResult.Status.TRUE : CallbackResult.Status.FALSE);
+				this.info.result.onResult((result == true) ? AnalysedURL.Status.TRUE : AnalysedURL.Status.FALSE);
 			} catch (IllegalArgumentException e) {
 				// TODO review logs
-				this.info.result.setResult(CallbackResult.Status.ERROR);
+				this.info.result.onResult(AnalysedURL.Status.ERROR);
 				LOGGER.log(Level.INFO, e.getMessage(), e);
 			} catch (IOException e) {
-				this.info.result.setResult(CallbackResult.Status.ERROR);
+				this.info.result.onResult(AnalysedURL.Status.ERROR);
 				LOGGER.log(Level.INFO, e.getMessage(), e);
 			}
 
@@ -75,7 +77,7 @@ public class WebCrawlerManager {
 
 	}
 
-	public void addUrl(String url, CallbackResult onResult) {
+	public void addUrl(String url, CallbackResultURL onResult) {
 		linksToVisit.add(new InfoWebCrawler(url, onResult));
 
 	}

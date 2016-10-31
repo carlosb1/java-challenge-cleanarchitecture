@@ -31,4 +31,5 @@ public class AnalysedURL {
 	public String toString() {
 		return "AnalysedURL [id=" + id + ", url=" + url + ", status=" + status + "]";
 	}
+
 }

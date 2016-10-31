@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import challenge.WebCrawlerManager;
-import challenge.usecases.CallbackResult;
+import challenge.usecases.CallbackResultURL;
 
 public class WebCrawlerManagerTest {
 
@@ -26,32 +26,32 @@ public class WebCrawlerManagerTest {
 
 	@Test
 	public void crawlOnePageNotValidThenReturnsResultFalse() throws InterruptedException {
-		CallbackResult onResult = new CallbackResult();
+		CallbackResultURL onResult = new CallbackResultURL();
 		crawlerManager.addUrl("http://google.com", onResult);
-		assertTrue(onResult.isFound() == CallbackResult.Status.NOTVISITED);
+		assertTrue(onResult.isFound() == CallbackResultURL.Status.NOTVISITED);
 		Thread.sleep(1000);
-		assertTrue(onResult.isFound() == CallbackResult.Status.FALSE);
+		assertTrue(onResult.isFound() == CallbackResultURL.Status.FALSE);
 	}
 
 	@Test
 	public void crawlOnePageValidThenReturnsResultTrue() throws InterruptedException {
-		CallbackResult onResult = new CallbackResult();
+		CallbackResultURL onResult = new CallbackResultURL();
 		crawlerManager.addUrl("http://lavanguardia.com", onResult);
-		assertTrue(onResult.isFound() == CallbackResult.Status.NOTVISITED);
+		assertTrue(onResult.isFound() == CallbackResultURL.Status.NOTVISITED);
 		Thread.sleep(1000);
-		assertTrue(onResult.isFound() == CallbackResult.Status.TRUE);
+		assertTrue(onResult.isFound() == CallbackResultURL.Status.TRUE);
 
 	}
 
 	@Test
 	public void crawlMultipleWebsThenResultsAreFalseAndTrue() throws InterruptedException {
-		CallbackResult onResultVanguardia = new CallbackResult();
-		CallbackResult onResultGoogle = new CallbackResult();
+		CallbackResultURL onResultVanguardia = new CallbackResultURL();
+		CallbackResultURL onResultGoogle = new CallbackResultURL();
 		crawlerManager.addUrl("http://lavanguardia.com", onResultVanguardia);
 		crawlerManager.addUrl("http://google.com", onResultGoogle);
 		Thread.sleep(1000);
-		assertTrue(onResultVanguardia.isFound() == CallbackResult.Status.TRUE);
-		assertTrue(onResultGoogle.isFound() == CallbackResult.Status.FALSE);
+		assertTrue(onResultVanguardia.isFound() == CallbackResultURL.Status.TRUE);
+		assertTrue(onResultGoogle.isFound() == CallbackResultURL.Status.FALSE);
 	}
 
 }
