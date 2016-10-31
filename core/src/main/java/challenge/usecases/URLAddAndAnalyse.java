@@ -5,11 +5,11 @@ import java.net.URL;
 
 import challenge.entities.AnalysedURL;
 
-public class URLAnalyser {
+public class URLAddAndAnalyse {
 	private final ModifyURL modifyURL;
 	private final CrawlURL crawlURL;
 
-	public URLAnalyser(ModifyURL modifyURL, CrawlURL crawlURL) {
+	public URLAddAndAnalyse(ModifyURL modifyURL, CrawlURL crawlURL) {
 		this.modifyURL = modifyURL;
 		this.crawlURL = crawlURL;
 	}
@@ -27,8 +27,6 @@ public class URLAnalyser {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		// modifyURL.save(url);
 
 	}
 

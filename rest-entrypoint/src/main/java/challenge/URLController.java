@@ -1,5 +1,6 @@
 package challenge;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -12,13 +13,22 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import challenge.entities.AnalysedURL;
+import challenge.usecases.URLAddAndAnalyse;
+import challenge.usecases.URLGetUpdatedURL;
+
 //TODO add spring validators
 @RestController
 @RequestMapping("/analyseurls/v1.0")
 public class URLController {
+	@Autowired
+	URLAddAndAnalyse urlAnalyser;
+	@Autowired
+	URLGetUpdatedURL getUpdaterURL;
 
 	@RequestMapping(value = "/urls/", method = RequestMethod.POST)
 	public ResponseEntity<Void> add(@RequestBody AnalysedURLDto analysedUrl, UriComponentsBuilder ucBuilder) {
+		urlAnalyser.register(analysedUrl.url);
 
 		// userService.saveUser(user);
 
@@ -31,13 +41,18 @@ public class URLController {
 	@RequestMapping(value = "/urls/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<AnalysedURLDto> get(@PathVariable String id, ModelMap model) {
 
-		AnalysedURLDto url = new AnalysedURLDto();
+		AnalysedURLDto url = toDto(getUpdaterURL.getUpdatedURL(id));
 		if (url == null) {
 			// System.out.println("User with id " + id + " not found");
 			return new ResponseEntity<AnalysedURLDto>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<AnalysedURLDto>(url, HttpStatus.OK);
 
+	}
+
+	private AnalysedURLDto toDto(AnalysedURL updatedURL) {
+		// TODO Auto-generated method stub
+		return new AnalysedURLDto();
 	}
 
 }

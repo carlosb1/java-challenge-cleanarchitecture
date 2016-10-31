@@ -8,11 +8,12 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
 import challenge.entities.AnalysedURL;
+import challenge.usecases.GetURL;
 import challenge.usecases.ModifyURL;
 
 //TODO Add find by url
 @Repository
-public interface AnalysedURLRepository extends MongoRepository<AnalysedURL, String>, ModifyURL {
+public interface AnalysedURLRepository extends MongoRepository<AnalysedURL, String>, ModifyURL, GetURL {
 	@SuppressWarnings("unchecked")
 	AnalysedURL save(AnalysedURL url);
 
