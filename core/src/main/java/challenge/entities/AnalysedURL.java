@@ -15,6 +15,21 @@ public class AnalysedURL {
 	public URL url;
 	private Status status;
 
+	/**
+	 * @return the status
+	 */
+	public Status getStatus() {
+		return status;
+	}
+
+	/**
+	 * @param status
+	 *            the status to set
+	 */
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
 	public AnalysedURL() {
 	}
 
