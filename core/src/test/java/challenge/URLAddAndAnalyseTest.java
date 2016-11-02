@@ -13,32 +13,57 @@ import org.mockito.ArgumentCaptor;
 
 import challenge.entities.AnalysedURL;
 import challenge.entities.AnalysedURL.Status;
+import challenge.usecases.AddAndAnalyseURL;
+import challenge.usecases.CallbackResultURL;
 import challenge.usecases.CrawlURL;
 import challenge.usecases.ModifyURL;
-import challenge.usecases.URLAddAndAnalyse;
 
 public class URLAddAndAnalyseTest {
-	// GetDeviceDetails getDeviceDetails = mock(GetDeviceDetails.class);
 
 	private CrawlURL crawlURL = mock(CrawlURL.class);
 	private ModifyURL modifyURL = mock(ModifyURL.class);
 
-	private URLAddAndAnalyse addAndAnalyseURL;
+	private AddAndAnalyseURL addAndAnalyseURL;
 
 	@Before
 	public void setUp() {
-		addAndAnalyseURL = new URLAddAndAnalyse(modifyURL, crawlURL);
+		addAndAnalyseURL = new AddAndAnalyseURL(modifyURL, crawlURL);
 	}
 
 	@Test
 	public void addURLThenModifyDBWithInformation() throws MalformedURLException {
 
 		addAndAnalyseURL.register("http://www.lavanguardia.com");
-		/* save url before to analyse */
-		ArgumentCaptor<AnalysedURL> argument = ArgumentCaptor.forClass(AnalysedURL.class);
-		verify(modifyURL).save(argument.capture());
-		assertTrue(argument.getAllValues().get(0).url.equals(new URL("http://www.lavanguardia.com")));
-		assertTrue(argument.getAllValues().get(0).getStatus() == Status.NOTVISITED);
-		/* add crawlURL receive correct url */
+
+		ArgumentCaptor<AnalysedURL> analysedURL = thenURLIsAddedInDB();
+		assertAddedNewURL(analysedURL);
+
+		ArgumentCaptor<String> verifyURL = thenAddedURLToCrawl();
+
+		assertCrawlURL(verifyURL);
 	}
+
+	private void assertCrawlURL(ArgumentCaptor<String> verifyURL) {
+		assertTrue(verifyURL.getValue().equals("http://www.lavanguardia.com"));
+		assertTrue(verifyURL.getValue().equals("http://www.lavanguardia.com"));
+	}
+
+	private ArgumentCaptor<String> thenAddedURLToCrawl() {
+		ArgumentCaptor<String> verifyURL = ArgumentCaptor.forClass(String.class);
+		ArgumentCaptor<CallbackResultURL> callbackResult = ArgumentCaptor.forClass(CallbackResultURL.class);
+		verify(crawlURL).addUrl(verifyURL.capture(), callbackResult.capture());
+		return verifyURL;
+	}
+
+	private void assertAddedNewURL(ArgumentCaptor<AnalysedURL> analysedURL) throws MalformedURLException {
+		assertTrue(analysedURL.getValue().url.equals(new URL("http://www.lavanguardia.com")));
+		assertTrue(analysedURL.getValue().getStatus() == Status.NOTVISITED);
+	}
+
+	private ArgumentCaptor<AnalysedURL> thenURLIsAddedInDB() {
+		ArgumentCaptor<AnalysedURL> analysedURL = ArgumentCaptor.forClass(AnalysedURL.class);
+		verify(modifyURL).save(analysedURL.capture());
+		return analysedURL;
+	}
+
 }

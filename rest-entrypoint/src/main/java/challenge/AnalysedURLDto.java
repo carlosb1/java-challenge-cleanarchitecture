@@ -6,16 +6,26 @@ public class AnalysedURLDto {
 		NOTVISITED, TRUE, FALSE, ERROR
 	};
 
-	public String id;
-	public String url;
-	private Status status;
+	private final String id;
+	private final String url;
+	private final Status status;
 
-	public AnalysedURLDto() {
-	}
-
-	public AnalysedURLDto(String url, Status status) {
+	public AnalysedURLDto(String id, String url, Status status) {
 		this.url = url;
 		this.status = status;
+		this.id = id;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public Status getStatus() {
+		return status;
 	}
 
 }

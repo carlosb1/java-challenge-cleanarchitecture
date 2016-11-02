@@ -2,10 +2,10 @@ package challenge.usecases;
 
 import challenge.entities.AnalysedURL;
 
-public class URLGetUpdatedURL {
+public class GetUpdatedURL {
 	private final GetURL getURL;
 
-	public URLGetUpdatedURL(GetURL getURL) {
+	public GetUpdatedURL(GetURL getURL) {
 		this.getURL = getURL;
 	}
 

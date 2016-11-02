@@ -14,27 +14,27 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import challenge.entities.AnalysedURL;
-import challenge.usecases.URLAddAndAnalyse;
-import challenge.usecases.URLGetUpdatedURL;
+import challenge.usecases.AddAndAnalyseURL;
+import challenge.usecases.GetUpdatedURL;
 
 //TODO add spring validators
 @RestController
 @RequestMapping("/analyseurls/v1.0")
 public class URLController {
 	@Autowired
-	URLAddAndAnalyse urlAnalyser;
+	AddAndAnalyseURL urlAnalyser;
 	@Autowired
-	URLGetUpdatedURL getUpdaterURL;
+	GetUpdatedURL getUpdaterURL;
 
 	@RequestMapping(value = "/urls/", method = RequestMethod.POST)
 	public ResponseEntity<Void> add(@RequestBody AnalysedURLDto analysedUrl, UriComponentsBuilder ucBuilder) {
-		urlAnalyser.register(analysedUrl.url);
+		urlAnalyser.register(analysedUrl.getUrl());
 
 		// userService.saveUser(user);
 
 		HttpHeaders headers = new HttpHeaders();
 		// TODO check this visibility for analysed URL
-		headers.setLocation(ucBuilder.path("/urls/{id}").buildAndExpand(analysedUrl.id).toUri());
+		headers.setLocation(ucBuilder.path("/urls/{id}").buildAndExpand(analysedUrl.getId()).toUri());
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
@@ -43,16 +43,24 @@ public class URLController {
 
 		AnalysedURLDto url = toDto(getUpdaterURL.getUpdatedURL(id));
 		if (url == null) {
-			// System.out.println("User with id " + id + " not found");
 			return new ResponseEntity<AnalysedURLDto>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<AnalysedURLDto>(url, HttpStatus.OK);
 
 	}
 
-	private AnalysedURLDto toDto(AnalysedURL updatedURL) {
-		// TODO Auto-generated method stub
-		return new AnalysedURLDto();
+	private AnalysedURLDto toDto(AnalysedURL analysedURL) {
+		AnalysedURLDto.Status statusDto;
+		if (analysedURL.getStatus() == AnalysedURL.Status.TRUE) {
+			statusDto = AnalysedURLDto.Status.TRUE;
+		} else if (analysedURL.getStatus() == AnalysedURL.Status.FALSE) {
+			statusDto = AnalysedURLDto.Status.FALSE;
+		} else if (analysedURL.getStatus() == AnalysedURL.Status.NOTVISITED) {
+			statusDto = AnalysedURLDto.Status.NOTVISITED;
+		} else {
+			statusDto = AnalysedURLDto.Status.ERROR;
+		}
+		return new AnalysedURLDto(analysedURL.id, analysedURL.url.toString(), statusDto);
 	}
 
 }

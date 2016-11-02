@@ -5,17 +5,16 @@ import java.net.URL;
 
 import challenge.entities.AnalysedURL;
 
-public class URLAddAndAnalyse {
+public class AddAndAnalyseURL {
 	private final ModifyURL modifyURL;
 	private final CrawlURL crawlURL;
 
-	public URLAddAndAnalyse(ModifyURL modifyURL, CrawlURL crawlURL) {
+	public AddAndAnalyseURL(ModifyURL modifyURL, CrawlURL crawlURL) {
 		this.modifyURL = modifyURL;
 		this.crawlURL = crawlURL;
 	}
 
 	public void register(String address) {
-		// AnalysedURL urlToAnalyse =
 		try {
 			URL url = new URL(address);
 			AnalysedURL urlToAnalyse = AnalysedURL.makeNotVisitedURL(url);
