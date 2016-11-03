@@ -21,13 +21,19 @@ import challenge.usecases.GetUpdatedURL;
 @RestController
 @RequestMapping("/analyseurls/v1.0")
 public class URLController {
-	@Autowired
 	AddAndAnalyseURL urlAnalyser;
-	@Autowired
 	GetUpdatedURL getUpdaterURL;
+
+	@Autowired
+	public URLController(AddAndAnalyseURL urlAnalyser, GetUpdatedURL getUpdaterURL) {
+		this.urlAnalyser = urlAnalyser;
+		this.getUpdaterURL = getUpdaterURL;
+	}
 
 	@RequestMapping(value = "/urls/", method = RequestMethod.POST)
 	public ResponseEntity<Void> add(@RequestBody AnalysedURLDto analysedUrl, UriComponentsBuilder ucBuilder) {
+
+		// TODO restore id from analyse URL
 		urlAnalyser.register(analysedUrl.getUrl());
 
 		// userService.saveUser(user);

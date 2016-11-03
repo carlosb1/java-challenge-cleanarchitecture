@@ -1,4 +1,4 @@
-package challenge.integration;
+package challenge.dataproviders;
 
 import static org.junit.Assert.assertTrue;
 

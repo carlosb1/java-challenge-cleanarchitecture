@@ -24,6 +24,8 @@
     <module>mongodb-dataprovider</module>
     <module>rest-entrypoint</module>
     <module>core</module>
+    <module>configuration</module>
+    <module>integration-tests</module>
   </modules>
   <build>
 	  <plugins>
