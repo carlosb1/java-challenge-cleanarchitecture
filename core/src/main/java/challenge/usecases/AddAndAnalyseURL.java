@@ -5,6 +5,7 @@ import java.net.URL;
 
 import challenge.entities.AnalysedURL;
 
+//TODO add validators parameters
 public class AddAndAnalyseURL {
 	private final ModifyURL modifyURL;
 	private final CrawlURL crawlURL;
