@@ -15,6 +15,19 @@ public class AddAndAnalyseURL {
 		this.crawlURL = crawlURL;
 	}
 
+	public void startCrawl() {
+		this.crawlURL.start();
+	}
+
+	public void stopCrawl() {
+		try {
+			this.crawlURL.stop();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	public void register(String address) {
 		try {
 			URL url = new URL(address);

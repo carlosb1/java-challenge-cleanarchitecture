@@ -39,7 +39,6 @@ public class WebCrawlerManager implements CrawlURL {
 		@Override
 		public void run() {
 			try {
-				// TODO move callback to web crawler...
 				boolean result = crawler.execute();
 				this.info.result.onResult((result == true) ? AnalysedURL.Status.TRUE : AnalysedURL.Status.FALSE);
 			} catch (IllegalArgumentException e) {
