@@ -17,7 +17,8 @@
         <spring.data.commons.version>1.4.1.RELEASE</spring.data.commons.version>
         <junit.version>4.12</junit.version>
         <jsoup.version>1.9.2</jsoup.version>
-        <mockito.version>1.10.19</mockito.version>        
+        <mockito.version>1.10.19</mockito.version>
+        <servlet.version>3.1.0</servlet.version>        
   </properties>
   <modules>
     <module>crawler-device</module>
@@ -26,6 +27,7 @@
     <module>core</module>
     <module>configuration</module>
     <module>integration-tests</module>
+    <module>app</module>
   </modules>
   <build>
 	  <plugins>
