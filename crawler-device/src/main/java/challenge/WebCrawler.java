@@ -1,23 +1,35 @@
 package challenge;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
-public final class WebCrawler {
-	private final String url;
-	private final Parser parser;
+import challenge.entities.AnalysedURL;
 
-	public WebCrawler(String url, Parser parser) {
-		this.url = url;
+public final class WebCrawler {
+	private final static Logger LOGGER = Logger.getLogger(WebCrawler.class.getName());
+	private final List<AnalysedURL> urlsToAnalyse;
+	private final DocumentParser parser;
+
+	public WebCrawler(List<AnalysedURL> urlsToAnalyse, DocumentParser parser) {
+		this.urlsToAnalyse = urlsToAnalyse;
 		this.parser = parser;
 	}
 
-	// TODO create generic solutions, factory? builder, apply rules
-	public boolean execute() throws IOException, IllegalArgumentException {
-		Document document = Jsoup.connect(this.url).get();
-		return this.parser.findTags(document);
+	public void execute() {
+		for (AnalysedURL urlToAnalyse : urlsToAnalyse) {
+			try {
+				Document document;
+				document = Jsoup.connect(urlToAnalyse.url.toString()).get();
+				this.parser.execute(document, urlToAnalyse);
+			} catch (IOException e) {
+				LOGGER.log(Level.WARNING, e.getMessage(), e);
+			}
+		}
 	}
 
 }

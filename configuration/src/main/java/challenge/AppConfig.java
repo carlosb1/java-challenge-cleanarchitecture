@@ -8,7 +8,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import challenge.usecases.AddAndAnalyseURL;
 import challenge.usecases.CrawlURL;
-import challenge.usecases.GetUpdatedURL;
 
 @Configuration
 @EnableWebMvc
@@ -26,12 +25,6 @@ public class AppConfig {
 	@Bean
 	public AddAndAnalyseURL urlAnalyser(AnalysedURLRepository repository, CrawlURL crawlURL) {
 		return new AddAndAnalyseURL(repository, crawlURL);
-
-	}
-
-	@Bean
-	public GetUpdatedURL getUpdaterURL(AnalysedURLRepository repository) {
-		return new GetUpdatedURL(repository);
 
 	}
 

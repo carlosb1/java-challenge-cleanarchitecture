@@ -1,12 +1,10 @@
 package challenge;
 
-import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import challenge.entities.AnalysedURL;
@@ -16,39 +14,18 @@ import challenge.usecases.CrawlURL;
 public class WebCrawlerManager implements CrawlURL {
 	private final static Logger LOGGER = Logger.getLogger(WebCrawlerManager.class.getName());
 
-	private static final class InfoWebCrawler {
-
-		private final String url;
-		private final CallbackResultURL result;
-
-		private InfoWebCrawler(final String url, final CallbackResultURL result) {
-			this.url = url;
-			this.result = result;
-		}
-	}
-
 	private static final class ThreadWebCrawler implements Runnable {
 		private final WebCrawler crawler;
-		private final InfoWebCrawler info;
+		private final EventCrawler info;
 
-		public ThreadWebCrawler(final InfoWebCrawler info) {
+		public ThreadWebCrawler(final EventCrawler info) {
 			this.info = info;
-			crawler = new WebCrawler(this.info.url, new Parser());
+			crawler = new WebCrawler(this.info.getUrls(), new DocumentParser(this.info.getResult()));
 		}
 
 		@Override
 		public void run() {
-			try {
-				boolean result = crawler.execute();
-				this.info.result.onResult((result == true) ? AnalysedURL.Status.TRUE : AnalysedURL.Status.FALSE);
-			} catch (IllegalArgumentException e) {
-				// TODO review logs
-				this.info.result.onResult(AnalysedURL.Status.ERROR);
-				LOGGER.log(Level.INFO, e.getMessage(), e);
-			} catch (IOException e) {
-				this.info.result.onResult(AnalysedURL.Status.ERROR);
-				LOGGER.log(Level.INFO, e.getMessage(), e);
-			}
+			crawler.execute();
 
 		}
 
@@ -56,7 +33,7 @@ public class WebCrawlerManager implements CrawlURL {
 
 	// TODO add reactive programming
 	// TODO create synchronized element
-	private final LinkedBlockingQueue<InfoWebCrawler> linksToVisit;
+	private final LinkedBlockingQueue<EventCrawler> linksToVisit;
 	private final AtomicBoolean stop;
 	private final ExecutorService execService;
 
@@ -69,30 +46,28 @@ public class WebCrawlerManager implements CrawlURL {
 	}
 
 	public WebCrawlerManager(int maxThreads) {
-		linksToVisit = new LinkedBlockingQueue<InfoWebCrawler>();
+		linksToVisit = new LinkedBlockingQueue<EventCrawler>();
 		stop = new AtomicBoolean(true);
 		execService = Executors.newFixedThreadPool(maxThreads);
 		poolExecutor = Executors.newSingleThreadExecutor();
 
 	}
 
-	public void addUrl(String url, CallbackResultURL onResult) {
-		linksToVisit.add(new InfoWebCrawler(url, onResult));
+	public void addUrls(List<AnalysedURL> urls, CallbackResultURL onResult) {
+		linksToVisit.add(EventCrawler.makeEventAnalyseURLs(urls, onResult));
 
 	}
 
 	public void start() {
 		poolExecutor.submit(() -> {
-			try {
-				stop.set(false);
-				while (!stop.get()) {
-					InfoWebCrawler infoThread = linksToVisit.poll(TIME_WAIT, TimeUnit.SECONDS);
-					if (infoThread != null) {
-						execService.execute(new ThreadWebCrawler(infoThread));
-					}
+			while (true) {
+				EventCrawler infoThread = linksToVisit.poll();
+				if (infoThread.isStop()) {
+					return;
 				}
-			} catch (InterruptedException e) {
-				LOGGER.log(Level.INFO, e.getMessage(), e);
+				if (infoThread != null) {
+					execService.execute(new ThreadWebCrawler(infoThread));
+				}
 			}
 
 		});
@@ -100,7 +75,7 @@ public class WebCrawlerManager implements CrawlURL {
 	}
 
 	public void stop() throws InterruptedException {
-		stop.set(true);
+		linksToVisit.add(EventCrawler.makeStopEvent());
 		Thread.sleep(TIME_WAIT);
 
 	}

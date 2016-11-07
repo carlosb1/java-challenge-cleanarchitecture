@@ -1,7 +1,11 @@
 package challenge.usecases;
 
+import java.util.List;
+
+import challenge.entities.AnalysedURL;
+
 public interface CrawlURL {
-	public void addUrl(String url, CallbackResultURL onResult);
+	public void addUrls(List<AnalysedURL> urls, CallbackResultURL onResult);
 
 	public void start();
 

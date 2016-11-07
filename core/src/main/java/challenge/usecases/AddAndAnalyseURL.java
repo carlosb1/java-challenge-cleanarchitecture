@@ -1,12 +1,15 @@
 package challenge.usecases;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import challenge.entities.AnalysedURL;
 
-//TODO add validators parameters
 public class AddAndAnalyseURL {
+
+	private final static Logger LOGGER = Logger.getLogger(AddAndAnalyseURL.class.getName());
+
 	private final ModifyURL modifyURL;
 	private final CrawlURL crawlURL;
 
@@ -16,30 +19,22 @@ public class AddAndAnalyseURL {
 	}
 
 	public void startCrawl() {
+		LOGGER.log(Level.INFO, "It is starting the crawler process");
 		this.crawlURL.start();
 	}
 
 	public void stopCrawl() {
+		LOGGER.log(Level.INFO, "It is stopping the crawler process");
 		try {
 			this.crawlURL.stop();
 		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			LOGGER.log(Level.WARNING, "It ocurred some interruption in the stop process for the crawler", e);
 		}
 	}
 
-	public void register(String address) {
-		try {
-			URL url = new URL(address);
-			AnalysedURL urlToAnalyse = AnalysedURL.makeNotVisitedURL(url);
-			modifyURL.save(urlToAnalyse);
-			// TODO add factory for UpdateResultURL
-			crawlURL.addUrl(url.toString(), new UpdateResultURL(modifyURL, url));
-
-		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void register(List<AnalysedURL> urlsToAnalyse) {
+		modifyURL.save(urlsToAnalyse);
+		crawlURL.addUrls(urlsToAnalyse, new UpdateResultURL(modifyURL));
 
 	}
 

@@ -1,72 +1,52 @@
 package challenge.integration;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.mock;
 
-import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
-import org.jsoup.nodes.Document;
-import org.junit.Assert;
 import org.junit.Test;
 
-import challenge.Parser;
+import challenge.DocumentParser;
 import challenge.WebCrawler;
+import challenge.entities.AnalysedURL;
+import challenge.entities.AnalysedURL.Status;
+import challenge.usecases.CallbackResultURL;
 
 public class WebCrawlerTest {
 
-	public static class MockParserLoadDocument extends Parser {
-		public boolean findTags(Document document) throws IOException {
-			if (document == null || !document.hasText()) {
-				Assert.fail();
-			}
-			return false;
-		}
-	}
-
-	public static class MockParserSuccess extends Parser {
-		public boolean findTags(Document document) throws IOException {
-			boolean result = super.findTags(document);
-			assertTrue(result);
-			return result;
-		}
-	}
-
 	private WebCrawler webCrawler;
+	private CallbackResultURL mockedCallbackResultURL = mock(CallbackResultURL.class);
 
 	@Test
-	public void connectWhenWebPageThenParseValues() {
-		webCrawler = new WebCrawler("http://www.google.com", new MockParserLoadDocument());
-		try {
-			assertFalse(webCrawler.execute());
-		} catch (IOException e) {
-			Assert.fail(e.getMessage());
-		}
-	}
-
-	@Test
-	public void connectWhenWebPageDoesntExistThenParseValues() {
-		webCrawler = new WebCrawler("noexist", new Parser());
-		try {
-			webCrawler.execute();
-			Thread.sleep(2000);
-			Assert.fail();
-		} catch (Exception e) {
-		}
-	}
-
-	@Test
-	public void connectWhenWebPageWithTagsThenParseValues() throws IllegalArgumentException, IOException, InterruptedException {
-		webCrawler = new WebCrawler("http://lavanguardia.com", new MockParserSuccess());
+	public void connectWhenWebPageThenParseValues() throws InterruptedException, MalformedURLException {
+		List<AnalysedURL> urlsToAnalyse = new ArrayList<AnalysedURL>(Arrays.asList(AnalysedURL.makeNotVisitedURL(new URL("http://www.google.com"))));
+		WebCrawler webCrawler = new WebCrawler(urlsToAnalyse, new DocumentParser(mockedCallbackResultURL));
 		webCrawler.execute();
-		Thread.sleep(2000);
-
+		Thread.sleep(1000);
+		assertTrue(urlsToAnalyse.get(0).getStatus() == Status.FALSE);
 	}
 
 	@Test
-	public void connectWhenWebPageSSLWithTagsThenParseValues() throws IllegalArgumentException, IOException, InterruptedException {
-		webCrawler = new WebCrawler("https://www.google.com", new MockParserLoadDocument());
+	public void connectWhenWebPageWithTagsThenParseValues() throws InterruptedException, MalformedURLException {
+		List<AnalysedURL> urlsToAnalyse = new ArrayList<AnalysedURL>(Arrays.asList(AnalysedURL.makeNotVisitedURL(new URL("http://lavanguardia.com"))));
+		webCrawler = new WebCrawler(urlsToAnalyse, new DocumentParser(mockedCallbackResultURL));
 		webCrawler.execute();
-		Thread.sleep(2000);
+		Thread.sleep(1000);
+		assertTrue(urlsToAnalyse.get(0).getStatus() == Status.TRUE);
+	}
+
+	@Test
+	public void connectWhenWebPageSSLWithTagsThenParseValues() throws InterruptedException, MalformedURLException {
+		List<AnalysedURL> urlsToAnalyse = new ArrayList<AnalysedURL>(Arrays.asList(AnalysedURL.makeNotVisitedURL(new URL("https://www.google.com"))));
+		webCrawler = new WebCrawler(urlsToAnalyse, new DocumentParser(mockedCallbackResultURL));
+		webCrawler.execute();
+		Thread.sleep(1000);
+		assertTrue(urlsToAnalyse.get(0).getStatus() == Status.FALSE);
 
 	}
 
