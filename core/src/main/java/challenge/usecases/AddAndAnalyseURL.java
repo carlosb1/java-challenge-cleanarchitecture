@@ -33,7 +33,6 @@ public class AddAndAnalyseURL {
 	}
 
 	public void register(List<AnalysedURL> urlsToAnalyse) {
-		modifyURL.save(urlsToAnalyse);
 		crawlURL.addUrls(urlsToAnalyse, new UpdateResultURL(modifyURL));
 
 	}

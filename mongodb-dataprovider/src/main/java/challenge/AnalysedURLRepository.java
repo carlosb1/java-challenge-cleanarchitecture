@@ -16,8 +16,6 @@ public interface AnalysedURLRepository extends MongoRepository<AnalysedURL, Stri
 	@SuppressWarnings("unchecked")
 	AnalysedURL save(AnalysedURL url);
 
-	List<AnalysedURL> save(List<AnalysedURL> url);
-
 	AnalysedURL findOne(String id);
 
 	List<AnalysedURL> findAll();

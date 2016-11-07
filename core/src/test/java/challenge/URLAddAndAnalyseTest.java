@@ -15,7 +15,6 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
 import challenge.entities.AnalysedURL;
-import challenge.entities.AnalysedURL.Status;
 import challenge.usecases.AddAndAnalyseURL;
 import challenge.usecases.CallbackResultURL;
 import challenge.usecases.CrawlURL;
@@ -40,11 +39,7 @@ public class URLAddAndAnalyseTest {
 
 		addAndAnalyseURL.register(urlsToAnalyse);
 
-		ArgumentCaptor<List> analysedURL = thenURLIsAddedInDB();
-		assertAddedNewURL(analysedURL);
-
 		ArgumentCaptor<List> verifyURLs = thenAddedURLToCrawl();
-
 		assertCrawlURL(verifyURLs);
 	}
 
@@ -57,17 +52,6 @@ public class URLAddAndAnalyseTest {
 		ArgumentCaptor<CallbackResultURL> callbackResult = ArgumentCaptor.forClass(CallbackResultURL.class);
 		verify(crawlURL).addUrls(verifyURL.capture(), callbackResult.capture());
 		return verifyURL;
-	}
-
-	private void assertAddedNewURL(ArgumentCaptor<List> urlsToAnalyse) throws MalformedURLException {
-		assertTrue(((AnalysedURL) urlsToAnalyse.getValue().get(0)).url.equals(new URL(WEB_MARFEELIZABLE)));
-		assertTrue(((AnalysedURL) urlsToAnalyse.getValue().get(0)).getStatus() == Status.NOTVISITED);
-	}
-
-	private ArgumentCaptor<List> thenURLIsAddedInDB() {
-		ArgumentCaptor<List> urlsToAnalyse = ArgumentCaptor.forClass(List.class);
-		verify(modifyURL).save(urlsToAnalyse.capture());
-		return urlsToAnalyse;
 	}
 
 }

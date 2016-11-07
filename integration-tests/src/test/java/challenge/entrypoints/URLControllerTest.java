@@ -1,11 +1,15 @@
 package challenge.entrypoints;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
@@ -50,8 +54,7 @@ public class URLControllerTest {
 		mockMvc = MockMvcBuilders.standaloneSetup(new URLController(addAndAnalyseURL)).build();
 		byte[] data = toJson(URL_MULTIPLE_WEBS);
 		// MvcResult result =
-		// mockMvc.perform(post("/analyseurls/v1.0/urls").contentType(MediaType.APPLICATION_JSON).content(data)).andExpect(status().isCreated())
-		// .andReturn();
+		mockMvc.perform(post("/analyseurls/v1.0/urls").contentType(MediaType.APPLICATION_JSON).content(data)).andExpect(status().isCreated()).andReturn();
 		// Wait for insert in database
 		Thread.sleep(5000);
 	}

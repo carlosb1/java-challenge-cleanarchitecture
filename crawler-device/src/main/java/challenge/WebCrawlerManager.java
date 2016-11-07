@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import challenge.entities.AnalysedURL;
@@ -25,19 +25,16 @@ public class WebCrawlerManager implements CrawlURL {
 
 		@Override
 		public void run() {
+			LOGGER.log(Level.INFO, "Executing new crawler thread");
 			crawler.execute();
-
 		}
 
 	}
 
-	// TODO add reactive programming
-	// TODO create synchronized element
 	private final LinkedBlockingQueue<EventCrawler> linksToVisit;
-	private final AtomicBoolean stop;
 	private final ExecutorService execService;
 
-	private static final int TIME_WAIT = 1;
+	private static final int TIME_WAIT = 10;
 	private static final int MAX_THREADS = 64;
 	private final ExecutorService poolExecutor;
 
@@ -47,7 +44,6 @@ public class WebCrawlerManager implements CrawlURL {
 
 	public WebCrawlerManager(int maxThreads) {
 		linksToVisit = new LinkedBlockingQueue<EventCrawler>();
-		stop = new AtomicBoolean(true);
 		execService = Executors.newFixedThreadPool(maxThreads);
 		poolExecutor = Executors.newSingleThreadExecutor();
 
@@ -60,16 +56,20 @@ public class WebCrawlerManager implements CrawlURL {
 
 	public void start() {
 		poolExecutor.submit(() -> {
-			while (true) {
-				EventCrawler infoThread = linksToVisit.poll();
-				if (infoThread.isStop()) {
-					return;
+			try {
+				while (true) {
+					EventCrawler infoThread;
+					infoThread = linksToVisit.take();
+					if (infoThread.isStop()) {
+						return;
+					}
+					if (infoThread != null) {
+						execService.execute(new ThreadWebCrawler(infoThread));
+					}
 				}
-				if (infoThread != null) {
-					execService.execute(new ThreadWebCrawler(infoThread));
-				}
+			} catch (Exception e) {
+				LOGGER.log(Level.WARNING, e.getMessage(), e);
 			}
-
 		});
 
 	}
