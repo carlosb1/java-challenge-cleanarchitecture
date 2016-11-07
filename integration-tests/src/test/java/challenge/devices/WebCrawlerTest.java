@@ -36,7 +36,7 @@ public class WebCrawlerTest {
 		List<AnalysedURL> urlsToAnalyse = new ArrayList<AnalysedURL>(Arrays.asList(AnalysedURL.makeNotVisitedURL(new URL("http://lavanguardia.com"))));
 		webCrawler = new WebCrawler(urlsToAnalyse, new DocumentParser(mockedCallbackResultURL));
 		webCrawler.execute();
-		Thread.sleep(1000);
+		Thread.sleep(2000);
 		assertTrue(urlsToAnalyse.get(0).getStatus() == Status.TRUE);
 	}
 

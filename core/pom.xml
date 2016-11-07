@@ -20,6 +20,6 @@
 		    <groupId>org.springframework.data</groupId>
 		    <artifactId>spring-data-commons-core</artifactId>
 		    <version>${spring.data.commons.version}</version>
-		</dependency>
+		</dependency>	
   </dependencies>
 </project>

@@ -44,7 +44,7 @@ public class URLAddAndAnalyseTest {
 	}
 
 	private void assertCrawlURL(ArgumentCaptor<List> verifyURL) {
-		assertTrue(((AnalysedURL) verifyURL.getValue().get(0)).url.toString().equals(WEB_MARFEELIZABLE));
+		assertTrue(((AnalysedURL) verifyURL.getValue().get(0)).getUrl().toString().equals(WEB_MARFEELIZABLE));
 	}
 
 	private ArgumentCaptor<List> thenAddedURLToCrawl() {

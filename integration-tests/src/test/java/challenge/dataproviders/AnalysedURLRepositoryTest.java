@@ -4,6 +4,7 @@ import static org.junit.Assert.assertTrue;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Date;
 import java.util.List;
 
 import org.junit.Before;
@@ -30,7 +31,7 @@ public class AnalysedURLRepositoryTest {
 
 	@Test
 	public void addOneURLThenIsUploadCorrectly() throws MalformedURLException {
-		AnalysedURL url = new AnalysedURL(new URL("https://www.google.com"), AnalysedURL.Status.TRUE);
+		AnalysedURL url = new AnalysedURL(new URL("https://www.google.com"), AnalysedURL.Status.TRUE, new Date());
 		repository.save(url);
 		List<AnalysedURL> info = repository.findAll();
 		assertTrue(info.size() == 1);
@@ -38,16 +39,16 @@ public class AnalysedURLRepositoryTest {
 
 	@Test
 	public void addOneURLThenReturnsOneById() throws MalformedURLException {
-		AnalysedURL url = new AnalysedURL(new URL("https://www.google.com"), AnalysedURL.Status.TRUE);
+		AnalysedURL url = new AnalysedURL(new URL("https://www.google.com"), AnalysedURL.Status.TRUE, new Date());
 		AnalysedURL savedURL = repository.save(url);
-		AnalysedURL foundURL = repository.findOne(savedURL.id);
+		AnalysedURL foundURL = repository.findOne(savedURL.getId());
 		assertTrue(foundURL != null);
-		assertTrue(foundURL.url.toString().equals("https://www.google.com"));
+		assertTrue(foundURL.getUrl().toString().equals("https://www.google.com"));
 	}
 
 	@Test
 	public void addOneURLThenReturnsIncorrectOneById() throws MalformedURLException {
-		AnalysedURL url = new AnalysedURL(new URL("https://www.google.com"), AnalysedURL.Status.TRUE);
+		AnalysedURL url = new AnalysedURL(new URL("https://www.google.com"), AnalysedURL.Status.TRUE, new Date());
 		repository.save(url);
 		AnalysedURL foundURL = repository.findOne("-1");
 		assertTrue(foundURL == null);

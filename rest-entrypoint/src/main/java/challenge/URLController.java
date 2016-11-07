@@ -12,6 +12,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +41,7 @@ public class URLController implements InitializingBean, DisposableBean {
 		List<AnalysedURL> urls = dtosToAnalysedURLs(urlToAnalyse);
 		urlAnalyser.register(urls);
 		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
 		return new ResponseEntity<Void>(headers, HttpStatus.CREATED);
 	}
 
@@ -52,7 +54,7 @@ public class URLController implements InitializingBean, DisposableBean {
 				URL url = new URL(possibleURL);
 				urls.add(AnalysedURL.makeNotVisitedURL(url));
 			} catch (MalformedURLException e) {
-				LOGGER.log(Level.WARNING, "URL malformed received from POST rest petition", e);
+				LOGGER.log(Level.WARNING, "URL malformed received from POST rest petition");
 				LOGGER.log(Level.WARNING, e.getMessage());
 
 			}

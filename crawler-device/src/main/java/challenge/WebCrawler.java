@@ -24,7 +24,7 @@ public final class WebCrawler {
 		for (AnalysedURL urlToAnalyse : urlsToAnalyse) {
 			try {
 				Document document;
-				document = Jsoup.connect(urlToAnalyse.url.toString()).get();
+				document = Jsoup.connect(urlToAnalyse.getUrl().toString()).get();
 				this.parser.execute(document, urlToAnalyse);
 
 			} catch (IOException e) {

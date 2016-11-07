@@ -1,6 +1,8 @@
 package challenge.entities;
 
 import java.net.URL;
+import java.util.Calendar;
+import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 
@@ -11,35 +13,56 @@ public class AnalysedURL {
 	};
 
 	@Id
-	public String id;
-	public URL url;
+	private String id;
+
+	private URL url;
 	private Status status;
 
-	/**
-	 * @return the status
-	 */
+	private Date createdDate;
+
 	public Status getStatus() {
 		return status;
 	}
 
-	/**
-	 * @param status
-	 *            the status to set
-	 */
 	public void setStatus(Status status) {
 		this.status = status;
+	}
+
+	public String getId() {
+		return id;
+	}
+
+	public URL getUrl() {
+		return url;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public void setUrl(URL url) {
+		this.url = url;
+	}
+
+	public Date getCreatedDate() {
+		return createdDate;
+	}
+
+	public void setCreatedDate(Date createdDate) {
+		this.createdDate = createdDate;
 	}
 
 	public AnalysedURL() {
 	}
 
-	public AnalysedURL(URL url, Status status) {
+	public AnalysedURL(URL url, Status status, Date date) {
 		this.url = url;
 		this.status = status;
+		this.createdDate = date;
 	}
 
 	public static AnalysedURL makeNotVisitedURL(URL url) {
-		return new AnalysedURL(url, Status.NOTVISITED);
+		return new AnalysedURL(url, Status.NOTVISITED, Calendar.getInstance().getTime());
 	}
 
 	@Override

@@ -30,7 +30,7 @@ public class DocumentParser {
 		} else {
 			urlToAnalyse.setStatus(Status.FALSE);
 		}
-		LOGGER.log(Level.INFO, "Updating database with url:" + urlToAnalyse.url.toString() + " and status: " + urlToAnalyse.getStatus());
+		LOGGER.log(Level.INFO, "Updating database with url:" + urlToAnalyse.getUrl().toString() + " and status: " + urlToAnalyse.getStatus());
 		this.callbackResult.onResult(urlToAnalyse);
 
 	}
