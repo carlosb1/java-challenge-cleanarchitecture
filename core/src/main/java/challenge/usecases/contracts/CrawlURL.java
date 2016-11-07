@@ -1,4 +1,4 @@
-package challenge.usecases;
+package challenge.usecases.contracts;
 
 import java.util.List;
 

@@ -1,6 +1,8 @@
 package challenge.usecases;
 
 import challenge.entities.AnalysedURL;
+import challenge.usecases.contracts.CallbackResultURL;
+import challenge.usecases.contracts.ModifyURL;
 
 public class UpdateResultURL implements CallbackResultURL {
 

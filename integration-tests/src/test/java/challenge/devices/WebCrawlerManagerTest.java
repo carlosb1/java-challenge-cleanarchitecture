@@ -1,4 +1,4 @@
-package challenge.integration;
+package challenge.devices;
 
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -13,7 +13,7 @@ import org.junit.Test;
 import challenge.WebCrawlerManager;
 import challenge.entities.AnalysedURL;
 import challenge.entities.AnalysedURL.Status;
-import challenge.usecases.CallbackResultURL;
+import challenge.usecases.contracts.CallbackResultURL;
 
 public class WebCrawlerManagerTest {
 

@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import challenge.usecases.AddAndAnalyseURL;
-import challenge.usecases.CrawlURL;
+import challenge.usecases.contracts.CrawlURL;
 
 @Configuration
 @EnableWebMvc

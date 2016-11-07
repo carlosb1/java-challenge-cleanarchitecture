@@ -7,7 +7,7 @@ import org.jsoup.nodes.Document;
 
 import challenge.entities.AnalysedURL;
 import challenge.entities.AnalysedURL.Status;
-import challenge.usecases.CallbackResultURL;
+import challenge.usecases.contracts.CallbackResultURL;
 
 public class DocumentParser {
 	private final static Logger LOGGER = Logger.getLogger(DocumentParser.class.getName());

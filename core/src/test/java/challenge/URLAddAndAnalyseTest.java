@@ -16,9 +16,9 @@ import org.mockito.ArgumentCaptor;
 
 import challenge.entities.AnalysedURL;
 import challenge.usecases.AddAndAnalyseURL;
-import challenge.usecases.CallbackResultURL;
-import challenge.usecases.CrawlURL;
-import challenge.usecases.ModifyURL;
+import challenge.usecases.contracts.CallbackResultURL;
+import challenge.usecases.contracts.CrawlURL;
+import challenge.usecases.contracts.ModifyURL;
 
 public class URLAddAndAnalyseTest {
 

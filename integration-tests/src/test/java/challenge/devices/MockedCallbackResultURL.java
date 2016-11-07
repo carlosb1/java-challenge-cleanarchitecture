@@ -1,10 +1,10 @@
-package challenge.integration;
+package challenge.devices;
 
 import static org.junit.Assert.assertTrue;
 
 import challenge.entities.AnalysedURL;
 import challenge.entities.AnalysedURL.Status;
-import challenge.usecases.CallbackResultURL;
+import challenge.usecases.contracts.CallbackResultURL;
 
 public class MockedCallbackResultURL implements CallbackResultURL {
 	private Status expectedResult;

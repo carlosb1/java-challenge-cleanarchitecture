@@ -8,8 +8,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import challenge.entities.AnalysedURL;
-import challenge.usecases.CallbackResultURL;
-import challenge.usecases.CrawlURL;
+import challenge.usecases.contracts.CallbackResultURL;
+import challenge.usecases.contracts.CrawlURL;
 
 public class WebCrawlerManager implements CrawlURL {
 	private final static Logger LOGGER = Logger.getLogger(WebCrawlerManager.class.getName());

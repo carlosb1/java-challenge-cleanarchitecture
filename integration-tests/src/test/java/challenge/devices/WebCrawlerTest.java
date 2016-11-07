@@ -1,4 +1,4 @@
-package challenge.integration;
+package challenge.devices;
 
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
@@ -15,7 +15,7 @@ import challenge.DocumentParser;
 import challenge.WebCrawler;
 import challenge.entities.AnalysedURL;
 import challenge.entities.AnalysedURL.Status;
-import challenge.usecases.CallbackResultURL;
+import challenge.usecases.contracts.CallbackResultURL;
 
 public class WebCrawlerTest {
 

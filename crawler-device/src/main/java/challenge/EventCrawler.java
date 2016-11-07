@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import challenge.entities.AnalysedURL;
-import challenge.usecases.CallbackResultURL;
+import challenge.usecases.contracts.CallbackResultURL;
 
 public class EventCrawler {
 

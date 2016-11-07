@@ -5,6 +5,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import challenge.entities.AnalysedURL;
+import challenge.usecases.contracts.CrawlURL;
+import challenge.usecases.contracts.ModifyURL;
 
 public class AddAndAnalyseURL {
 

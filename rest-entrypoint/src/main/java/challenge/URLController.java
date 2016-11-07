@@ -52,7 +52,9 @@ public class URLController implements InitializingBean, DisposableBean {
 				URL url = new URL(possibleURL);
 				urls.add(AnalysedURL.makeNotVisitedURL(url));
 			} catch (MalformedURLException e) {
-				LOGGER.log(Level.WARNING, "URL maltformed received from POST rest petition", e);
+				LOGGER.log(Level.WARNING, "URL malformed received from POST rest petition", e);
+				LOGGER.log(Level.WARNING, e.getMessage());
+
 			}
 		}
 		return urls;
