@@ -37,6 +37,8 @@ In order to simplify the problem, I am only working with entities from the busin
 business logic and the data objects from repository don't need to be equals and it is possible the creation of two different classes to represent entities in the
 database and the business logic.
 
+The REST service implements a mininum use case. It apply a "post" operation to create new urls to analyse. It would be easy the creation the set of PUT,GET,DELETE
+operations, but the problem doesn't require this. It would be complicate the design..
 
 The crawler implementation is not using an async annotation, it is avoided in order to have independent module. It is created as a reactive pattern 
 which receive two different events to process urls or stop the crawling. Furthermore, every set of urls are working with a thread pool to manage and 
