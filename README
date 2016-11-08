@@ -1,7 +1,47 @@
--> Doesn't get without http
--> It can not test jsoup for exercise limitation
--> How execute
--> Jetty plugin
--> Added servlet and log4j
--> Clean architecture and thread pool explanation
--> url como id
+
+INSTALLATION AND DECISIONS
+=================================
+
+For the execution is was installed an extra module (/app) to execute and jetty server. The installation should be easy:
+>mvn clean install
+>cd app
+>mvn jetty:run
+
+This module is an extra which it is only used for check the project.
+
+- It was necessary to add the servlet and jackson dependencies to permit compile and execute a JSON service. It is mandatory for the creation of a Spring application
+- It was added a log4j only for testing... It can be removed easily
+
+The project follows a clean architecture design [https://8thlight.com/blog/uncle-bob/2012/08/13/the-clean-architecture.html],  where it is easy to separate  different responsabilities: 
+	core -> It includes entities and use cases
+	dataprovider -> It includes a store data to save our information 
+	device -> external module to apply crawling
+	configuration -> Spring configuration and injection of dependencies 
+	rest-entrypoint -> It provides an entrypoint in our application as a REST service
+	integration-tests -> Integration tests from the modules.
+	
+All these modules have a set of interesting features: 
+-> They are applying the dependency inversion and the dependency injection philosophy.
+-> Each module has only one responsability and it is independent of others.
+-> Most of the classes are called with interfaces and not concrete with implementation.
+-> It permits an effective testing strategy.
+
+
+For the type of information, It is chosen a MongoDB-NOSQL database. It is more flexible than SQL and scalable for future use cases. Furthemore. It was decided to 
+save each URL with a timestamp and permit reanalyse URLS for future changes.. Also, it is checked every URL to not permit malformed links. 
+
+For problem limitations, It was not possible apply more libraries to create unit tests (It could be useful some libraries to mock database and jsoup static
+functions). For this reason, most of the tests are in the integration module.
+
+In order to simplify the problem, I am only working with entities from the business logic and they are mapped directly in the datastore.. For mature products, the 
+business logic and the data objects from repository don't need to be equals and it is possible the creation of two different classes to represent entities in the
+database and the business logic.
+
+
+The crawler implementation is not using an async annotation, it is avoided in order to have independent module. It is created as a reactive pattern 
+which receive two different events to process urls or stop the crawling. Furthermore, every set of urls are working with a thread pool to manage and 
+parallelize all the threads. All these implementation works as non-blocking and asyncron pattern for each received request.
+
+doubts: carlos.baezruiz@gmail.com
+
+
